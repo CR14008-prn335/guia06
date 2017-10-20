@@ -1,0 +1,134 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+     <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <title>Tipo Post</title>
+            </f:facet>
+        </h:head>
+
+        <h:body>
+                <f:view>
+            <h:form id="tabla_datos">
+                <h1 align="left"><h:outputText value="Tipo Post"/></h1>
+                
+                <p:dataTable value="#{tipoPostBean.modelo}"
+                     var="reg"
+                     lazy="true"
+                     paginator="true"
+                     rows="5"
+                     selectionMode="single"
+                     selection="#{tipoPostBean.registro}"
+                     disabledSelection="#{tipoPostBean.seleccions}">
+
+                    <p:ajax update=":frm_detalle:formulario :frm_detalle:btns" listener="#{tipoPostBean.cambiarSeleccion()}" event="rowSelect"/>
+                    <p:column>
+                            <f:facet name="header">
+                                    <h:outputText value="ID"/>
+                            </f:facet>		
+                        <h:outputText value="#{reg.idTipoPost}"/>
+                    </p:column>
+                    <p:column>
+                            <f:facet name="header">
+                                    <h:outputText value="Nombre"/>
+                            </f:facet>		
+                            <h:outputText value="#{reg.nombre}"/>
+                    </p:column>
+                    <p:column>
+                            <f:facet name="header">
+                                    <h:outputText value="Activo"/>
+                            </f:facet>		
+                            <h:outputText value="#{reg.activo}"/>
+                    </p:column>
+                    <p:column>
+                            <f:facet name="header">
+                                    <h:outputText value="Descripcion"/>
+                            </f:facet>		
+                            <h:outputText value="#{reg.descripcion}"/>
+                    </p:column>
+
+             </p:dataTable>
+          </h:form>
+          <br/>
+          <h:form id="frm_detalle">
+              <h3 align="left">Nuevo / Editar</h3>
+             <p:panel id="formulario">
+              
+                <p:focus context="formulario"/>
+                
+                <p:panelGrid id="grid_input" columns="3">
+
+                       <h:outputLabel for="id" value="ID"/>
+                       <p:inputText id="id" value="#{tipoPostBean.registro.idTipoPost}"
+                                     label="id" readonly="true"/>
+                     <p:message id="msmid" for="id"/>
+
+                      <h:outputLabel for="name" value="Nombre"/>
+                     <p:inputText id="name" value="#{tipoPostBean.registro.nombre}" label="name"
+                                  required="true" readonly="false"/>
+                     <p:message id="msname" for="name"/>
+
+                     
+                     <h:outputLabel for="actived" value="Activo"/>
+                     <p:selectBooleanCheckbox id="actived" value="#{tipoPostBean.registro.activo}"
+                                              disabled="false"/>
+                     <p:message id="msactived" for="actived"/>
+
+
+                     <h:outputLabel for="description" value="Descripcion"/>
+                     <p:inputTextarea id="description" value="#{tipoPostBean.registro.descripcion}" label="description"
+                                      required="true" readonly="false"/>
+                     <p:message id="msdescription" for="description"/>
+
+                                                          
+                     
+                </p:panelGrid>
+             </p:panel>
+               <p:toolbar id="btns">
+                <f:facet name="left">
+                    
+            
+                     <p:commandButton value="Crear" icon="ui-icon-disk"
+                                     validateClient="true" ajax="true"
+                                     update=":tabla_datos frm_detalle:formulario "
+                                     rendered="#{tipoPostBean.btnadd}"
+                                     actionListener="#{tipoPostBean.guardarRegistro()}"/>
+
+                    <p:commandButton value="Cancelar" icon="ui-icon-cancel"
+                                     validateClient="true" ajax="true"
+                                     update=":tabla_datos frm_detalle:formulario "
+                                     disabled="false" resetValues="true"
+                                     actionListener="#{tipoPostBean.cancelar()}"
+                                     immediate="true"/>
+                                     
+                  <p:commandButton value="Eliminar" icon="ui-icon-trash"
+                                     validateClient="true" ajax="true"
+                                     update=":tabla_datos frm_detalle:formulario "
+                                     rendered="#{tipoPostBean.botones}"
+                                     actionListener="#{tipoPostBean.Eliminar()}"/>
+                    
+                    <p:commandButton value="Editar" icon="ui-icon-pencil"
+                                     validateClient="true" ajax="true"
+                                     update=":tabla_datos frm_detalle:formulario "
+                                     rendered="#{tipoPostBean.botones}"
+                                     actionListener="#{tipoPostBean.Modificar()}"/>
+                   
+                    
+                    
+                  
+           </f:facet>
+             </p:toolbar>
+          </h:form>
+       </f:view>
+            
+            
+        </h:body>
+
+    </f:view>
+</html>
